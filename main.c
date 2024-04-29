@@ -13,4 +13,6 @@
  * number of special symbols "-s <int>"
  * randomize case "-rc"
  * mix "-m"
+ * use defaults "-d"
 */
+
