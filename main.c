@@ -1,4 +1,4 @@
-#include <stdio.h>
+
 
 /* Password generator*/ 
 
@@ -15,6 +15,30 @@
  * mix "-m"
  * use defaults "-d"
 */
+
+#include <stdio.h>
+#include <stdbool.h>
+
+#define DEFAULT_LENGTH 10 /* default length */
+#define DEFAULT_NALPHAS 5 /* default number of alpha characters*/
+#define DEFAULT_NDIGITS 3 /* default number of digits */
+#define DEFAULT_NSYMBOLS 2 /* default number of symbols */
+char alphas[] = "abcdefghijklmnoprstuwyxz";
+char digits[] = "0123456789";
+char symbols[] = "!@#$%^&*()";
+
+int length = DEFAULT_LENGTH; 
+int nalphas = DEFAULT_NALPHAS; 
+int ndigits = DEFAULT_NDIGITS; 
+int nsymbols = DEFAULT_NSYMBOLS; 
+
+bool isdefault = false;
+bool ismix = false;
+bool israncase = false;
+bool islength = false;
+bool isalphas = false;
+bool isnumbers = false;
+bool issymbols = false;
 
 
 int main(int argc, char* argv[])
