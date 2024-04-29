@@ -57,4 +57,11 @@ int main(int argc, char* argv[])
 				);
 		return 0;
 	}
+	char* current_option;
+	for (int i = 1; i < argc ; ++i)
+	{
+		current_option = argv[i];
+		if (current_option[0] != '-') continue;
+		printf("Option detected: %s\n",current_option);
+	}
 }
