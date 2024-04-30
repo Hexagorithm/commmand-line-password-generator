@@ -183,6 +183,11 @@ int main(int argc, char* argv[])
 		nsymbols = DEFAULT_NSYMBOLS;
 		ndigits = DEFAULT_NDIGITS;
 		char* password = (char* ) malloc((length+1) * sizeof(char));
+		if (password == NULL)
+		{
+			printf("Couldn\'t allocate space for password on heap.\n");
+			return 1;
+		}
 		memset(password, '\0', length+1); /* set it all to null */
 		addAlphas(password);
 		addDigits(password);
@@ -202,11 +207,36 @@ int main(int argc, char* argv[])
 		free(password);
 		return 0;
 	}
-	else
+	else if (!islength)
 	{
-		printf("Non-default password generation not inplemented, please check back later!\n");
-		printf("Your password would be %d bytes long.\n",get_length());
-		return 1;
+		length = get_length();
+		char* password = (char*) malloc(sizeof(char) * (length + 1));
+		if (password == NULL)
+		{
+			printf("Couln\'t allocate space for password on heap.\n");
+			return 1;
+		}
+		if (isalphas) addAlphas(password);
+		if (isnumbers) addDigits(password);
+		if (issymbols) addSymbols(password);
+		printf("Generated:  \"%s\"\n",password);
+		if (israncase) 
+		{
+			randomizeCase(password);
+			printf("Randomcase: \"%s\".\n",password);
+		}
+		if (ismix) 
+		{
+			mix(password);
+			printf("Mixed:      \"%s\".\n",password);
+		}
+		printf("Password:   \"%s\".\n",password);
+		free(password);
+		return 0;
+	}
+	else 
+	{
+		printf("Length specified passwords are not implemented yet, please check back later!\n");
 	}
 
 	return 0;
