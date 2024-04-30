@@ -16,8 +16,9 @@
  * use defaults "-d"
 */
 
-#include <stdio.h>
-#include <stdbool.h>
+#include <stdio.h> 
+#include <stdbool.h> //bools
+#include <string.h> //strlen
 
 #define DEFAULT_LENGTH 10 /* default length */
 #define DEFAULT_NALPHAS 5 /* default number of alpha characters*/
@@ -32,6 +33,7 @@ int nalphas = DEFAULT_NALPHAS;
 int ndigits = DEFAULT_NDIGITS; 
 int nsymbols = DEFAULT_NSYMBOLS; 
 
+/* Check if option was specified or not */
 bool isdefault = false;
 bool ismix = false;
 bool israncase = false;
@@ -63,5 +65,39 @@ int main(int argc, char* argv[])
 		current_option = argv[i];
 		if (current_option[0] != '-') continue;
 		printf("Option detected: %s\n",current_option);
+		if (strlen(current_option) != 2) 
+		{
+			printf("Illegal option detected: \"%s\".\n",current_option);
+			return 1;
+		}
+		switch(current_option[1])
+		{
+			case 'l':
+				islength = true;
+				break;
+			case 'a':
+				isalphas = true;
+				break;
+			case 'n':
+				isnumbers = true;
+				break;
+			case 's':
+				issymbols = true;
+				break;
+			case 'r':
+				israncase =true;
+				break;
+			case 'm':
+				ismix = true;
+				break;
+			case 'd':
+				isdefault = true;
+				break;
+			default:
+				printf("Unrecognized option: \"%s\".\n",current_option);
+				return 1;
+
+
+		}
 	}
 }
