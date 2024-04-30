@@ -1,10 +1,4 @@
-
-
 /* Password generator*/ 
-
-/* should fill empty space with not specified characters*/
-/* should append chars, then symbols, then numbers (if want good password, see -m) */
-
 
 /* Functionality:
  * length "-l <int>" (check if input valid with length)
@@ -25,10 +19,10 @@
 
 
 
-#define DEFAULT_LENGTH 10 /* default length */
-#define DEFAULT_NALPHAS 5 /* default number of alpha characters*/
-#define DEFAULT_NDIGITS 3 /* default number of digits */
-#define DEFAULT_NSYMBOLS 2 /* default number of symbols */
+#define DEFAULT_LENGTH     10 /* default length */
+#define DEFAULT_NALPHAS     5 /* default number of alpha characters*/
+#define DEFAULT_NDIGITS     3 /* default number of digits */
+#define DEFAULT_NSYMBOLS    2 /* default number of symbols */
 #define MAX_MIX_ITERATIONS 30 /* number of times mix should mix */
 char alphas[] = "abcdefghijklmnoprstuwyxz";
 char digits[] = "0123456789";
@@ -64,13 +58,13 @@ int main(int argc, char* argv[])
 	{
 		printf(
 				"Create password:\n"
-				"\t-l <int> -> specify length\n"
-				"\t-a <int> -> specify number of alpha chars\n"
-				"\t-n <int> -> specify number of digits\n"
-				"\t-s <int> -> specify number of special chars\n"
-				"\t-r -> randomize case of alpha chars (default is all lower)\n"
-				"\t-m -> mix password (default password: <alpha><symb><numbers>)\n"
-				"\t-d -> default password (-l, -a, -n not allowed)\n"
+				"\t-l <int> - length\n"
+				"\t-a <int> - alphabet chars\n"
+				"\t-n <int> - digits\n"
+				"\t-s <int> - special\n"
+				"\t-r       - randomize case (default is all lower)\n"
+				"\t-m       - mix password (default password: <alpha><symb><numbers>)\n"
+				"\t-d -> default -l, -a, -n, -s \n"
 				);
 		return 0;
 	}
@@ -208,8 +202,8 @@ int main(int argc, char* argv[])
 	printf("Generated:  \"%s\"\n",password);
 	if (israncase) 
 	{
-	randomizeCase(password);
-	printf("Randomcase: \"%s\".\n",password);
+		randomizeCase(password);
+		printf("Randomcase: \"%s\".\n",password);
 	}
 	if (ismix) 
 	{
