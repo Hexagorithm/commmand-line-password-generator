@@ -256,9 +256,6 @@ int main(int argc, char* argv[])
 
 		}
 		/* length is more than computed*/
-		printf("isnumbers -> %d | ndigits = %d\n",isnumbers,ndigits);
-		printf("isalphas -> %d | nalphas = %d\n",isalphas,nalphas);
-		printf("issymbols -> %d | nsymbols = %d\n",issymbols,nsymbols);
 
 		int code;
 
@@ -268,14 +265,29 @@ int main(int argc, char* argv[])
 			return 1;
 		}
 		autofill_category(code);
-		printf("AUtofil!\n");
-		printf("isnumbers -> %d | ndigits = %d\n",isnumbers,ndigits);
-		printf("isalphas -> %d | nalphas = %d\n",isalphas,nalphas);
-		printf("issymbols -> %d | nsymbols = %d\n",issymbols,nsymbols);
-
-
-		
-
+		char* password = (char*) malloc(sizeof(char) * (length + 1));
+		if (password == NULL)
+		{
+			printf("Couln\'t allocate space for password on heap.\n");
+			return 1;
+		}
+		if (isalphas) addAlphas(password);
+		if (isnumbers) addDigits(password);
+		if (issymbols) addSymbols(password);
+		printf("Generated:  \"%s\"\n",password);
+		if (israncase) 
+		{
+			randomizeCase(password);
+			printf("Randomcase: \"%s\".\n",password);
+		}
+		if (ismix) 
+		{
+			mix(password);
+			printf("Mixed:      \"%s\".\n",password);
+		}
+		printf("Password:   \"%s\".\n",password);
+		free(password);
+		return 0;
 	}
 
 	return 0;
