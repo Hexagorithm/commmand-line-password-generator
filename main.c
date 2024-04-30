@@ -8,6 +8,7 @@
  * randomize case "-r"
  * mix "-m"
  * use defaults "-d"
+ * verbose output "-v"
 */
 
 #include <stdio.h> 
@@ -24,6 +25,7 @@
 #define DEFAULT_NDIGITS     3 /* default number of digits */
 #define DEFAULT_NSYMBOLS    2 /* default number of symbols */
 #define MAX_MIX_ITERATIONS 30 /* number of times mix should mix */
+#define VERBOSE if (isverbose)
 char alphas[] = "abcdefghijklmnoprstuwyxz";
 char digits[] = "0123456789";
 char symbols[] = "!@#$%^&*()";
@@ -41,6 +43,7 @@ bool islength = false;
 bool isalphas = false;
 bool isnumbers = false;
 bool issymbols = false;
+bool isverbose = false;
 
 void addAlphas(char* dest);
 void addDigits(char* dest);
@@ -64,7 +67,8 @@ int main(int argc, char* argv[])
 				"\t-s <int> - special\n"
 				"\t-r       - randomize case (default is all lower)\n"
 				"\t-m       - mix password (default password: <alpha><symb><numbers>)\n"
-				"\t-d -> default -l, -a, -n, -s \n"
+				"\t-d -> default -l, -a, -n, -s values\n"
+				"\t-v -> verbose output\n"
 				);
 		return 0;
 	}
@@ -88,7 +92,7 @@ int main(int argc, char* argv[])
 				}
 				else if (atoi(argv[i+1]) == 0 && argv[i+1][0] != 0)
 				{
-					printf("%s: invalid integer: \"%s\"\n",current_option, argv[i+1]);
+					printf("%s: invalid value: \"%s\"\n",current_option, argv[i+1]);
 					return 1;
 				}
 				length = atoi(argv[i+1]);
@@ -102,7 +106,7 @@ int main(int argc, char* argv[])
 				}
 				else if (atoi(argv[i+1]) == 0 && argv[i+1][0] != 0)
 				{
-					printf("%s: invalid integer: \"%s\"\n",current_option, argv[i+1]);
+					printf("%s: invalid value: \"%s\"\n",current_option, argv[i+1]);
 					return 1;
 				}
 				nalphas = atoi(argv[i+1]);
@@ -116,7 +120,7 @@ int main(int argc, char* argv[])
 				}
 				else if (atoi(argv[i+1]) == 0 && argv[i+1][0] != 0)
 				{
-					printf("%s: invalid integer: \"%s\"\n",current_option, argv[i+1]);
+					printf("%s: invalid value: \"%s\"\n",current_option, argv[i+1]);
 					return 1;
 				}
 				ndigits = atoi(argv[i+1]);
@@ -130,14 +134,13 @@ int main(int argc, char* argv[])
 				}
 				else if (atoi(argv[i+1]) == 0 && argv[i+1][0] != 0)
 				{
-					printf("%s: invalid integer: \"%s\"\n",current_option, argv[i+1]);
+					printf("%s: invalid value: \"%s\"\n",current_option, argv[i+1]);
 					return 1;
 				}
 				nsymbols = atoi(argv[i+1]);
 				issymbols = true;
 				break;
 			case 'r':
-				printf("\n");
 				israncase =true;
 				break;
 			case 'm':
@@ -145,6 +148,9 @@ int main(int argc, char* argv[])
 				break;
 			case 'd':
 				isdefault = true;
+				break;
+			case 'v':
+				isverbose = true;
 				break;
 			default:
 				printf("Unrecognized option: \"%s\".\n",current_option);
@@ -155,6 +161,7 @@ int main(int argc, char* argv[])
 	}
 	if (isdefault)
 	{
+		VERBOSE printf("Default: reseting values!\n");
 		isnumbers = true;
 		issymbols = true;
 		islength  = true;
@@ -167,6 +174,7 @@ int main(int argc, char* argv[])
 	else if (!islength)
 	{
 		length = get_length();
+		VERBOSE printf("Autofilled length(=%d).\n",get_length());
 	}
 	else 
 	{
@@ -180,7 +188,7 @@ int main(int argc, char* argv[])
 		else if (length > get_length())
 		{
 			int code;
-			if ( (code =is_one_category_missing()) == 0 ) 
+			if ( (code = is_one_category_missing()) == 0 ) 
 			{
 				printf("At least 2 categories missing, input not valid!\n");
 				return 1;
@@ -199,18 +207,21 @@ int main(int argc, char* argv[])
 	if (isalphas) addAlphas(password);
 	if (isnumbers) addDigits(password);
 	if (issymbols) addSymbols(password);
-	printf("Generated:  \"%s\"\n",password);
+	VERBOSE printf("Charred:  \"%s\"\n",password);
 	if (israncase) 
 	{
 		randomizeCase(password);
-		printf("Randomcase: \"%s\".\n",password);
+		VERBOSE printf("Randomcase: \"%s\".\n",password);
 	}
 	if (ismix) 
 	{
 		mix(password);
-		printf("Mixed:      \"%s\".\n",password);
+		VERBOSE printf("Mixed:      \"%s\".\n",password);
 	}
-	printf("Password:   \"%s\".\n",password);
+	VERBOSE printf("Password:  \"");
+	printf("%s",password);
+	VERBOSE printf("\".");
+	printf("\n");
 	free(password);
 	return 0;
 }
@@ -299,16 +310,19 @@ void autofill_category(int code)
 	{
 		isalphas = true;
 		nalphas = length - ndigits - nsymbols;
+		VERBOSE printf("autofill nalphas(=%d)\n",nalphas);
 	}
 	else if (code == 2)
 	{
 		isnumbers = true;
 		ndigits = length - nalphas - nsymbols;
+		VERBOSE printf("autofill ndigits(=%d)\n",ndigits);
 	}
 	else if (code == 3)
 	{
 		issymbols = true;
 		nsymbols = length - nalphas - ndigits;
+		VERBOSE printf("autofill nsymbols(=%d)",nsymbols);
 	}
 	else printf("Wtf?\n");
 }
