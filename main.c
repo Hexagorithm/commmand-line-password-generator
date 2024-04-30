@@ -30,10 +30,10 @@ char alphas[] = "abcdefghijklmnoprstuwyxz";
 char digits[] = "0123456789";
 char symbols[] = "!@#$%^&*()";
 
-int length = 0;
-int nalphas = 0;
-int ndigits = 0;
-int nsymbols = 0;
+unsigned int length = 0;
+unsigned int nalphas = 0;
+unsigned int ndigits = 0;
+unsigned int nsymbols = 0;
 
 /* Check if option was specified or not */
 bool isdefault = false;
@@ -61,10 +61,10 @@ int main(int argc, char* argv[])
 	{
 		printf(
 				"Create password:\n"
-				"\t-l <int> - length\n"
-				"\t-a <int> - alphabet chars\n"
-				"\t-n <int> - digits\n"
-				"\t-s <int> - special\n"
+				"\t-l <uint> - length\n"
+				"\t-a <uint> - alphabet chars\n"
+				"\t-n <uint> - digits\n"
+				"\t-s <uint> - special\n"
 				"\t-r       - randomize case (default is all lower)\n"
 				"\t-m       - mix password (default password: <alpha><symb><numbers>)\n"
 				"\t-d -> default -l, -a, -n, -s values\n"
