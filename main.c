@@ -48,6 +48,7 @@ bool issymbols = false;
 
 void addAlphas(char* dest);
 void addDigits(char* dest);
+void addSymbols(char* dest);
 /*
 printf("length   -> %d\n",length);
 printf("nalphas  -> %d\n",nalphas);
@@ -186,10 +187,12 @@ int main(int argc, char* argv[])
 	/* test functions */
 	char* password = (char* ) malloc((length+1) * sizeof(char));
 	memset(password, '\0', length+1); /* set it all to null */
-	nalphas = 2;
-	ndigits = 2;
+	printf("Digits: %d\n",ndigits);
+	printf("Alphas: %d\n",nalphas);
+	printf("Symbols: %d\n",nsymbols);
 	addDigits(password);
 	addAlphas(password);
+	addSymbols(password);
 	printf("Password: \"%s\".\n",password);
 	free(password);
 
@@ -217,5 +220,17 @@ void addDigits(char* dest)
 	{
 		char_index = rand() % strlen(digits);
 		dest[i++] = digits[char_index];
+	}
+}
+
+void addSymbols(char* dest)
+{
+	int char_index;
+	int i = 0;
+	while(dest[i] != '\0') ++i; /* skip previous input till nulls (nulls =free space)*/
+	for (int _ = 0 ; _ < nsymbols; ++_)
+	{
+		char_index = rand() % strlen(symbols);
+		dest[i++] = symbols[char_index];
 	}
 }
