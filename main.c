@@ -46,7 +46,7 @@ bool isalphas = false;
 bool isnumbers = false;
 bool issymbols = false;
 
-void addAlphas(char* output, int length);
+void addAlphas(char* output);
 /*
 printf("length   -> %d\n",length);
 printf("nalphas  -> %d\n",nalphas);
@@ -182,19 +182,24 @@ int main(int argc, char* argv[])
 		printf("Non-default password generation not inplemented, please check back later!\n");
 		return 1;
 	}
+	/* test functions */
 	char* password = (char* ) malloc((length+1) * sizeof(char));
-	memset(password, 0, length+1); /* set it all to null */
+	nalphas = 6;
+	memset(password, '\0', length+1); /* set it all to null */
+	password[0] = 'N';
+	addAlphas(password);
+	printf("Password: \"%s\".\n",password);
 	free(password);
 
 	return 0;
 }
 
-void addAlphas(char* dest, int length)
+void addAlphas(char* dest)
 {
 	int char_index;
 	int i = 0;
-	while(dest[i++] != '\0'); /* skip previous input till nulls (nulls = free space)*/
-	for (int i = 0; i < length; ++i)
+	while(dest[i] != '\0') ++i; /* skip previous input till nulls (nulls =free space)*/
+	for (; i < nalphas; ++i)
 	{
 		char_index = rand() % strlen(alphas);
 		dest[i] = alphas[char_index];
