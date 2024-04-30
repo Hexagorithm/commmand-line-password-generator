@@ -18,8 +18,11 @@
 
 #include <stdio.h> 
 #include <stdbool.h> /* bools */
-#include <string.h> /* strlen */
-#include <stdlib.h> /* atoi */
+#include <string.h> /* strlen memset */
+#include <stdlib.h> /* atoi malloc free srand rand*/
+#include <time.h> /* for random numbers */
+
+
 
 #define DEFAULT_LENGTH 10 /* default length */
 #define DEFAULT_NALPHAS 5 /* default number of alpha characters*/
@@ -43,6 +46,7 @@ bool isalphas = false;
 bool isnumbers = false;
 bool issymbols = false;
 
+void addAlphas(char* output, int length);
 /*
 printf("length   -> %d\n",length);
 printf("nalphas  -> %d\n",nalphas);
@@ -61,6 +65,7 @@ printf("isdefault -> %d\n",isdefault);
 
 int main(int argc, char* argv[])
 {
+	srand(time(0)); /* initialize random integer sequence*/
 	if (argc == 1)
 	{
 		printf(
@@ -162,6 +167,7 @@ int main(int argc, char* argv[])
 	}
 	if (isdefault)
 	{
+		printf("Reseting values to default!\n");
 		isnumbers = false;
 		issymbols = false;
 		islength  = false;
@@ -171,5 +177,27 @@ int main(int argc, char* argv[])
 		nsymbols = DEFAULT_NSYMBOLS;
 		ndigits = DEFAULT_NDIGITS;
 	}
+	else
+	{
+		printf("Non-default password generation not inplemented, please check back later!\n");
+		return 1;
+	}
+	char* password = (char* ) malloc((length+1) * sizeof(char));
+	memset(password, 0, length+1); /* set it all to null */
+	free(password);
+
 	return 0;
 }
+
+void addAlphas(char* dest, int length)
+{
+	int char_index;
+	int i = 0;
+	while(dest[i++] != '\0'); /* skip nulls*/
+	for (int i = 0; i < length; ++i)
+	{
+		char_index = rand() % strlen(alphas);
+		dest[i] = alphas[char_index];
+	}
+}
+
