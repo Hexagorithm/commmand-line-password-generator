@@ -161,65 +161,18 @@ int main(int argc, char* argv[])
 	}
 	if (isdefault)
 	{
-		isnumbers = false;
-		issymbols = false;
-		islength  = false;
-		isalphas  = false;
+		isnumbers = true;
+		issymbols = true;
+		islength  = true;
+		isalphas  = true;
 		length = DEFAULT_LENGTH;
 		nalphas = DEFAULT_NALPHAS;
 		nsymbols = DEFAULT_NSYMBOLS;
 		ndigits = DEFAULT_NDIGITS;
-		char* password = (char* ) malloc((length+1) * sizeof(char));
-		if (password == NULL)
-		{
-			printf("Couldn\'t allocate space for password on heap.\n");
-			return 1;
-		}
-		memset(password, '\0', length+1); /* set it all to null */
-		addAlphas(password);
-		addDigits(password);
-		addSymbols(password);
-		printf("Default:    \"%s\"\n",password);
-		if (israncase) 
-		{
-			randomizeCase(password);
-			printf("Randomcase: \"%s\".\n",password);
-		}
-		if (ismix) 
-		{
-			mix(password);
-			printf("Mixed:      \"%s\".\n",password);
-		}
-		printf("Password:   \"%s\".\n",password);
-		free(password);
-		return 0;
 	}
 	else if (!islength)
 	{
 		length = get_length();
-		char* password = (char*) malloc(sizeof(char) * (length + 1));
-		if (password == NULL)
-		{
-			printf("Couln\'t allocate space for password on heap.\n");
-			return 1;
-		}
-		if (isalphas) addAlphas(password);
-		if (isnumbers) addDigits(password);
-		if (issymbols) addSymbols(password);
-		printf("Generated:  \"%s\"\n",password);
-		if (israncase) 
-		{
-			randomizeCase(password);
-			printf("Randomcase: \"%s\".\n",password);
-		}
-		if (ismix) 
-		{
-			mix(password);
-			printf("Mixed:      \"%s\".\n",password);
-		}
-		printf("Password:   \"%s\".\n",password);
-		free(password);
-		return 0;
 	}
 	else 
 	{
@@ -228,68 +181,43 @@ int main(int argc, char* argv[])
 			printf("Password length contradiction!\n");
 			return 1;
 		}
-		else if (length == get_length()) /* no need to check anything here, right?*/
+
+
+		else if (length > get_length())
 		{
-			char* password = (char*) malloc(sizeof(char) * (length + 1));
-			if (password == NULL)
+			int code;
+			if ( (code =is_one_category_missing()) == 0 ) 
 			{
-				printf("Couln\'t allocate space for password on heap.\n");
+				printf("At least 2 categories missing, input not valid!\n");
 				return 1;
 			}
-			if (isalphas) addAlphas(password);
-			if (isnumbers) addDigits(password);
-			if (issymbols) addSymbols(password);
-			printf("Generated:  \"%s\"\n",password);
-			if (israncase) 
-			{
-				randomizeCase(password);
-				printf("Randomcase: \"%s\".\n",password);
-			}
-			if (ismix) 
-			{
-				mix(password);
-				printf("Mixed:      \"%s\".\n",password);
-			}
-			printf("Password:   \"%s\".\n",password);
-			free(password);
-		return 0;
+			autofill_category(code);
 
 		}
-		/* length is more than computed*/
-
-		int code;
-
-		if ( (code =is_one_category_missing()) == 0 ) 
-		{
-			printf("At least 2 categories missing, input not valid!\n");
-			return 1;
-		}
-		autofill_category(code);
-		char* password = (char*) malloc(sizeof(char) * (length + 1));
-		if (password == NULL)
-		{
-			printf("Couln\'t allocate space for password on heap.\n");
-			return 1;
-		}
-		if (isalphas) addAlphas(password);
-		if (isnumbers) addDigits(password);
-		if (issymbols) addSymbols(password);
-		printf("Generated:  \"%s\"\n",password);
-		if (israncase) 
-		{
-			randomizeCase(password);
-			printf("Randomcase: \"%s\".\n",password);
-		}
-		if (ismix) 
-		{
-			mix(password);
-			printf("Mixed:      \"%s\".\n",password);
-		}
-		printf("Password:   \"%s\".\n",password);
-		free(password);
-		return 0;
 	}
-
+	char* password = (char*) malloc(sizeof(char) * (length + 1));
+	memset(password, 0, length+1);
+	if (password == NULL)
+	{
+		printf("Couln\'t allocate space for password on heap.\n");
+		return 1;
+	}
+	if (isalphas) addAlphas(password);
+	if (isnumbers) addDigits(password);
+	if (issymbols) addSymbols(password);
+	printf("Generated:  \"%s\"\n",password);
+	if (israncase) 
+	{
+	randomizeCase(password);
+	printf("Randomcase: \"%s\".\n",password);
+	}
+	if (ismix) 
+	{
+		mix(password);
+		printf("Mixed:      \"%s\".\n",password);
+	}
+	printf("Password:   \"%s\".\n",password);
+	free(password);
 	return 0;
 }
 
