@@ -43,6 +43,21 @@ bool isalphas = false;
 bool isnumbers = false;
 bool issymbols = false;
 
+/*
+printf("length   -> %d\n",length);
+printf("nalphas  -> %d\n",nalphas);
+printf("ndigits  -> %d\n",ndigits);
+printf("nsymbols -> %d\n",nsymbols);
+printf("\n");
+printf("islength -> %d\n",islength);
+printf("isalphas -> %d\n",isalphas);
+printf("isnumbers -> %d\n",isnumbers);
+printf("issymbols -> %d\n",issymbols);
+printf("israncase -> %d\n",israncase);
+printf("ismix -> %d\n",ismix);
+printf("isdefault -> %d\n",isdefault);
+
+*/
 
 int main(int argc, char* argv[])
 {
@@ -144,6 +159,17 @@ int main(int argc, char* argv[])
 
 
 		}
+	}
+	if (isdefault)
+	{
+		isnumbers = false;
+		issymbols = false;
+		islength  = false;
+		isalphas  = false;
+		length = DEFAULT_LENGTH;
+		nalphas = DEFAULT_NALPHAS;
+		nsymbols = DEFAULT_NSYMBOLS;
+		ndigits = DEFAULT_NDIGITS;
 	}
 	return 0;
 }
