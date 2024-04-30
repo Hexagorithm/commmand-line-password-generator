@@ -173,7 +173,6 @@ int main(int argc, char* argv[])
 	}
 	if (isdefault)
 	{
-		printf("Reseting values to default!\n");
 		isnumbers = false;
 		issymbols = false;
 		islength  = false;
@@ -182,21 +181,31 @@ int main(int argc, char* argv[])
 		nalphas = DEFAULT_NALPHAS;
 		nsymbols = DEFAULT_NSYMBOLS;
 		ndigits = DEFAULT_NDIGITS;
+		char* password = (char* ) malloc((length+1) * sizeof(char));
+		memset(password, '\0', length+1); /* set it all to null */
+		addAlphas(password);
+		addDigits(password);
+		addSymbols(password);
+		printf("Default:    \"%s\"\n",password);
+		if (israncase) 
+		{
+			randomizeCase(password);
+			printf("Randomcase: \"%s\".\n",password);
+		}
+		if (ismix) 
+		{
+			mix(password);
+			printf("Mixed:      \"%s\".\n",password);
+		}
+		printf("Password:   \"%s\".\n",password);
+		free(password);
+		return 0;
 	}
 	else
 	{
 		printf("Non-default password generation not inplemented, please check back later!\n");
 		return 1;
 	}
-	/* test functions */
-	char* password = (char* ) malloc((length+1) * sizeof(char));
-	memset(password, '\0', length+1); /* set it all to null */
-	nalphas = 10;
-	addAlphas(password);
-	printf("Password: \"%s\"\n",password);
-	randomizeCase(password);
-	printf("Password: \"%s\"\n",password);
-	free(password);
 
 	return 0;
 }
