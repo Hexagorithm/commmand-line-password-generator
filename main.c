@@ -54,7 +54,7 @@ void addSymbols(char* dest);
 void mix(char* dest);
 void randomizeCase(char* dest);
 int get_length(void);
-bool is_one_category_missing(void);
+int is_one_category_missing(void);
 
 int main(int argc, char* argv[])
 {
@@ -255,11 +255,13 @@ int main(int argc, char* argv[])
 
 		}
 		/* length is more than computed*/
-		if (!is_one_category_missing() ) 
+		int code;
+		if ( (code =is_one_category_missing()) == 0 ) 
 		{
 			printf("At least 2 categories missing, input not valid!\n");
 			return 1;
 		}
+		else printf("Autofilling category: %d.\n",code);
 		
 
 	}
@@ -337,14 +339,11 @@ int get_length(void) /* calculate length if not length was inputted*/
 }
 
 
-bool is_one_category_missing(void) /* check if only 1 category is missing, autofill*/
+int is_one_category_missing(void) /* check if only 1 category is missing, autofill*/
 {
-	if ( 
-			(!isalphas && isnumbers && issymbols) 
-		       	||
-			( isalphas && !isnumbers && issymbols)
-			||
-			( isalphas && isnumbers && !issymbols)
-	   ) return true;
-	return false;
+	if ( !isalphas && isnumbers && issymbols) return 1;
+	else if ( isalphas && !isnumbers && issymbols) return 2;
+	else if ( isalphas && isnumbers && !issymbols) return 3;
+	return 0;
 }
+
