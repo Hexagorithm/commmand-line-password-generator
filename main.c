@@ -236,7 +236,39 @@ int main(int argc, char* argv[])
 	}
 	else 
 	{
-		printf("Length specified passwords are not implemented yet, please check back later!\n");
+		if (length < get_length()) 
+		{
+			printf("Password length contradiction!\n");
+			return 1;
+		}
+		else if (length == get_length()) /* no need to check anything here, right?*/
+		{
+			char* password = (char*) malloc(sizeof(char) * (length + 1));
+			if (password == NULL)
+			{
+				printf("Couln\'t allocate space for password on heap.\n");
+				return 1;
+			}
+			if (isalphas) addAlphas(password);
+			if (isnumbers) addDigits(password);
+			if (issymbols) addSymbols(password);
+			printf("Generated:  \"%s\"\n",password);
+			if (israncase) 
+			{
+				randomizeCase(password);
+				printf("Randomcase: \"%s\".\n",password);
+			}
+			if (ismix) 
+			{
+				mix(password);
+				printf("Mixed:      \"%s\".\n",password);
+			}
+			printf("Password:   \"%s\".\n",password);
+			free(password);
+		return 0;
+
+		}
+
 	}
 
 	return 0;
