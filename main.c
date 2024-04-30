@@ -55,6 +55,7 @@ void mix(char* dest);
 void randomizeCase(char* dest);
 int get_length(void);
 int is_one_category_missing(void);
+void autofill_category(int code);
 
 int main(int argc, char* argv[])
 {
@@ -255,13 +256,24 @@ int main(int argc, char* argv[])
 
 		}
 		/* length is more than computed*/
+		printf("isnumbers -> %d | ndigits = %d\n",isnumbers,ndigits);
+		printf("isalphas -> %d | nalphas = %d\n",isalphas,nalphas);
+		printf("issymbols -> %d | nsymbols = %d\n",issymbols,nsymbols);
+
 		int code;
+
 		if ( (code =is_one_category_missing()) == 0 ) 
 		{
 			printf("At least 2 categories missing, input not valid!\n");
 			return 1;
 		}
-		else printf("Autofilling category: %d.\n",code);
+		autofill_category(code);
+		printf("AUtofil!\n");
+		printf("isnumbers -> %d | ndigits = %d\n",isnumbers,ndigits);
+		printf("isalphas -> %d | nalphas = %d\n",isalphas,nalphas);
+		printf("issymbols -> %d | nsymbols = %d\n",issymbols,nsymbols);
+
+
 		
 
 	}
@@ -347,3 +359,22 @@ int is_one_category_missing(void) /* check if only 1 category is missing, autofi
 	return 0;
 }
 
+void autofill_category(int code)
+{
+	if (code == 1)
+	{
+		isalphas = true;
+		nalphas = length - ndigits - nsymbols;
+	}
+	else if (code == 2)
+	{
+		isnumbers = true;
+		ndigits = length - nalphas - nsymbols;
+	}
+	else if (code == 3)
+	{
+		issymbols = true;
+		nsymbols = length - nalphas - ndigits;
+	}
+	else printf("Wtf?\n");
+}
