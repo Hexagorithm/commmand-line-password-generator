@@ -21,6 +21,7 @@
 #include <string.h> /* strlen memset */
 #include <stdlib.h> /* atoi malloc free srand rand*/
 #include <time.h> /* for random numbers */
+#include <ctype.h> /* to upper for randomize case */
 
 
 
@@ -51,6 +52,7 @@ void addAlphas(char* dest);
 void addDigits(char* dest);
 void addSymbols(char* dest);
 void mix(char* dest);
+void randomizeCase(char* dest);
 /*
 printf("length   -> %d\n",length);
 printf("nalphas  -> %d\n",nalphas);
@@ -189,6 +191,11 @@ int main(int argc, char* argv[])
 	/* test functions */
 	char* password = (char* ) malloc((length+1) * sizeof(char));
 	memset(password, '\0', length+1); /* set it all to null */
+	nalphas = 10;
+	addAlphas(password);
+	printf("Password: \"%s\"\n",password);
+	randomizeCase(password);
+	printf("Password: \"%s\"\n",password);
 	free(password);
 
 	return 0;
@@ -245,4 +252,14 @@ void mix(char* dest)
 	}
 }
 
+void randomizeCase(char* dest)
+{
+	for (int i = 0; i < length; ++i)
+	{
+		if ( isalpha(dest[i]) && rand() % 2 == 1)
+		{
+			dest[i] = toupper(dest[i]);
+		}
 
+	}
+}
