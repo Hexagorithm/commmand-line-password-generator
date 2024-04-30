@@ -34,10 +34,10 @@ char alphas[] = "abcdefghijklmnoprstuwyxz";
 char digits[] = "0123456789";
 char symbols[] = "!@#$%^&*()";
 
-int length = DEFAULT_LENGTH; 
-int nalphas = DEFAULT_NALPHAS; 
-int ndigits = DEFAULT_NDIGITS; 
-int nsymbols = DEFAULT_NSYMBOLS; 
+int length = 0;
+int nalphas = 0;
+int ndigits = 0;
+int nsymbols = 0;
 
 /* Check if option was specified or not */
 bool isdefault = false;
@@ -53,6 +53,7 @@ void addDigits(char* dest);
 void addSymbols(char* dest);
 void mix(char* dest);
 void randomizeCase(char* dest);
+int get_length(void);
 /*
 printf("length   -> %d\n",length);
 printf("nalphas  -> %d\n",nalphas);
@@ -204,6 +205,7 @@ int main(int argc, char* argv[])
 	else
 	{
 		printf("Non-default password generation not inplemented, please check back later!\n");
+		printf("Your password would be %d bytes long.\n",get_length());
 		return 1;
 	}
 
@@ -271,4 +273,10 @@ void randomizeCase(char* dest)
 		}
 
 	}
+}
+
+int get_length(void) /* calculate length if not length was inputted*/
+{
+	return ndigits + nalphas + nsymbols;
+
 }
