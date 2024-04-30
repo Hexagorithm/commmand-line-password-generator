@@ -17,8 +17,9 @@
 */
 
 #include <stdio.h> 
-#include <stdbool.h> //bools
-#include <string.h> //strlen
+#include <stdbool.h> /* bools */
+#include <string.h> /* strlen */
+#include <stdlib.h> /* atoi */
 
 #define DEFAULT_LENGTH 10 /* default length */
 #define DEFAULT_NALPHAS 5 /* default number of alpha characters*/
@@ -64,7 +65,6 @@ int main(int argc, char* argv[])
 	{
 		current_option = argv[i];
 		if (current_option[0] != '-') continue;
-		printf("Option detected: %s\n",current_option);
 		if (strlen(current_option) != 2) 
 		{
 			printf("Illegal option detected: \"%s\".\n",current_option);
@@ -73,18 +73,63 @@ int main(int argc, char* argv[])
 		switch(current_option[1])
 		{
 			case 'l':
+				if (i + 1 == argc) /* check if flag with mandatory parameter is last argument*/
+				{
+					printf("%s: no parameter given.\n", current_option);
+					return 1;
+				}
+				else if (atoi(argv[i+1]) == 0 && argv[i+1][0] != 0)
+				{
+					printf("%s: invalid integer: \"%s\"\n",current_option, argv[i+1]);
+					return 1;
+				}
+				length = atoi(argv[i+1]);
 				islength = true;
 				break;
 			case 'a':
+				if (i + 1 == argc)
+				{
+					printf("%s: no parameter given.\n", current_option);
+					return 1;
+				}
+				else if (atoi(argv[i+1]) == 0 && argv[i+1][0] != 0)
+				{
+					printf("%s: invalid integer: \"%s\"\n",current_option, argv[i+1]);
+					return 1;
+				}
+				nalphas = atoi(argv[i+1]);
 				isalphas = true;
 				break;
 			case 'n':
+				if (i + 1 == argc)
+				{
+					printf("%s: no parameter given.\n", current_option);
+					return 1;
+				}
+				else if (atoi(argv[i+1]) == 0 && argv[i+1][0] != 0)
+				{
+					printf("%s: invalid integer: \"%s\"\n",current_option, argv[i+1]);
+					return 1;
+				}
+				ndigits = atoi(argv[i+1]);
 				isnumbers = true;
 				break;
 			case 's':
+				if (i + 1 == argc) 
+				{
+					printf("%s: no parameter given.\n", current_option);
+					return 1;
+				}
+				else if (atoi(argv[i+1]) == 0 && argv[i+1][0] != 0)
+				{
+					printf("%s: invalid integer: \"%s\"\n",current_option, argv[i+1]);
+					return 1;
+				}
+				nsymbols = atoi(argv[i+1]);
 				issymbols = true;
 				break;
 			case 'r':
+				printf("\n");
 				israncase =true;
 				break;
 			case 'm':
@@ -100,4 +145,5 @@ int main(int argc, char* argv[])
 
 		}
 	}
+	return 0;
 }
