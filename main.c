@@ -28,6 +28,7 @@
 #define DEFAULT_NALPHAS 5 /* default number of alpha characters*/
 #define DEFAULT_NDIGITS 3 /* default number of digits */
 #define DEFAULT_NSYMBOLS 2 /* default number of symbols */
+#define MAX_MIX_ITERATIONS 30 /* number of times mix should mix */
 char alphas[] = "abcdefghijklmnoprstuwyxz";
 char digits[] = "0123456789";
 char symbols[] = "!@#$%^&*()";
@@ -49,6 +50,7 @@ bool issymbols = false;
 void addAlphas(char* dest);
 void addDigits(char* dest);
 void addSymbols(char* dest);
+void mix(char* dest);
 /*
 printf("length   -> %d\n",length);
 printf("nalphas  -> %d\n",nalphas);
@@ -187,13 +189,6 @@ int main(int argc, char* argv[])
 	/* test functions */
 	char* password = (char* ) malloc((length+1) * sizeof(char));
 	memset(password, '\0', length+1); /* set it all to null */
-	printf("Digits: %d\n",ndigits);
-	printf("Alphas: %d\n",nalphas);
-	printf("Symbols: %d\n",nsymbols);
-	addDigits(password);
-	addAlphas(password);
-	addSymbols(password);
-	printf("Password: \"%s\".\n",password);
 	free(password);
 
 	return 0;
@@ -234,3 +229,20 @@ void addSymbols(char* dest)
 		dest[i++] = symbols[char_index];
 	}
 }
+
+void mix(char* dest)
+{
+	int index1;
+	int index2;
+	char buffer;
+	for (int _ = 0; _ < MAX_MIX_ITERATIONS; ++_)
+	{
+		index1 = rand() % length;
+		index2 = rand() % length;
+		buffer = dest[index1];
+		dest[index1] = dest[index2];
+		dest[index2] = buffer;
+	}
+}
+
+
