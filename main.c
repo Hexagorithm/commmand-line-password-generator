@@ -193,7 +193,7 @@ void addAlphas(char* dest, int length)
 {
 	int char_index;
 	int i = 0;
-	while(dest[i++] != '\0'); /* skip nulls*/
+	while(dest[i++] != '\0'); /* skip previous input till nulls (nulls = free space)*/
 	for (int i = 0; i < length; ++i)
 	{
 		char_index = rand() % strlen(alphas);
